@@ -16,7 +16,7 @@ export const PokeRocket: FC<PokeRocketProps> = ({ actualPokemon, actualRocket })
         const { rocket_type } = actualRocket;
         setCapRocket(rocket_type.charAt(0).toUpperCase() + rocket_type.slice(1));
         console.log(actualRocket);
-    }, [])
+    }, [actualRocket, actualPokemon])
 
     return(
         <Flex w="80%" margin="auto" justifyContent="space-between" mb="4rem">
@@ -51,10 +51,10 @@ export const PokeRocket: FC<PokeRocketProps> = ({ actualPokemon, actualRocket })
             >
                 <Text textStyle="h3"><b>Rocket name: {actualRocket.rocket_name}</b></Text>
                 <Box>
-                    <Text textStyle="paragraph" fontSize="md"><b>Country:</b> {actualRocket.country}</Text>
-                    <Text textStyle="paragraph" fontSize="md"><b>Type:</b> {capRocket}</Text>
-                    <Text textStyle="paragraph" fontSize="md"><b>Height (m):</b> {actualRocket.height.meters}</Text>
-                    <Text textStyle="paragraph" fontSize="md"><b>Description:</b> {actualRocket.description}</Text>
+                    <Text textStyle="paragraph" fontSize="sm"><b>Country:</b> {actualRocket.country}</Text>
+                    <Text textStyle="paragraph" fontSize="sm"><b>Type:</b> {capRocket}</Text>
+                    <Text textStyle="paragraph" fontSize="sm"><b>Height (m):</b> {actualRocket.height.meters}</Text>
+                    <Text textStyle="paragraph" fontSize="sm"><b>Description:</b> {actualRocket.description}</Text>
                 </Box>
             </Flex>
             <Flex

@@ -1,18 +1,26 @@
-import React, { useState, useEffect } from "react"
+import React, { useState } from "react"
 import { Flex, Text, Image, Input, Button } from "@chakra-ui/react"
 import { PokeRocket } from './components/pokeRocket/component';
-import { getPokemons, getPokemonById } from "./services/pokemon/servicePokemon";
+import { getPokemonById } from "./services/pokemon/servicePokemon";
 import { getRockets, getRocketById, getRocketIdByPokemon } from "./services/spaceX/serviceSpaceX";
+import { Rockets } from "./components/pokemonsRocket/component";
 
 
 export const App = () => {
   const [pokemonName, setPokemonName] = useState<string>("")
   const [actualPokemon, setActualPokemon] = useState<any>(undefined)
   const [actualRocket, setActualRocket] = useState<any>(undefined)
+  const [rockets, setRockets] = useState<any>(undefined)
 
   const getPokemonId = (event: React.ChangeEvent<HTMLInputElement>) => {
-      if (event.target.value !== "") setPokemonName(event.target.value);
-      else setPokemonName("");
+      if (event.target.value !== ""){
+        setPokemonName(event.target.value);
+        setRockets(undefined);
+      }
+      else {
+        setActualPokemon(undefined);
+        setActualRocket(undefined);
+      }
   };
 
   const fetchPokemonRocket = async () => {
@@ -22,6 +30,13 @@ export const App = () => {
       setActualPokemon(newPokemon);
       setActualRocket(newRocket);
   };
+
+  const fetchRockets = async () => {
+    const newRockets = await getRockets();
+    setRockets(newRockets);
+    setActualPokemon(undefined);
+    setActualRocket(undefined);
+};
   
   return(
   <Flex fontSize="xl" bg="gray.200" direction="column">
@@ -45,12 +60,18 @@ export const App = () => {
         <Text textStyle="paragraph">Who's your favorite Pokemon?</Text>
         <Input w="20%" type="text" m="0 3rem 0 2rem" variant='flushed' borderColor="teal.600" onChange={getPokemonId}/>
         <Button size="lg" variant="teal" onClick={fetchPokemonRocket}>Search</Button>
-        <Button size="lg" variant="gray" ml="7rem" onClick={fetchPokemonRocket}>See list</Button>
+        <Button size="lg" variant="gray" ml="7rem" onClick={fetchRockets}>See list</Button>
       </Flex>
     </Flex>
 
     { (actualPokemon !== undefined && actualRocket !== undefined) ? (
       <PokeRocket actualPokemon={actualPokemon} actualRocket={actualRocket} />
     ) : null}
+
+    { rockets !== undefined ? (
+      <Rockets rockets={rockets} />
+    ) : null}
+
+
   </Flex>
 )}
